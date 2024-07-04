@@ -44,6 +44,7 @@ struct PokemonImageCarouselView: View {
                 .resizable()
                 .aspectRatio(contentMode: .fill)
         )
+        .clipped()
     }
 }
 

@@ -30,6 +30,7 @@ struct PokemonDetailView: View {
                 }
                 .padding(.horizontal)
             }
+            .padding(.bottom, 32)
         }
         .navigationTitle(pokemon.name.capitalized)
     }

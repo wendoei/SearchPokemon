@@ -15,7 +15,7 @@ struct SearchableListView: View {
             VStack {
                 SearchBarView(searchText: $viewModel.searchText)
                     .padding(.horizontal)
-                    .padding(.vertical, 5)
+                    .padding(.top, 16)
                 
                 ZStack {
                     List(viewModel.pokemons, id: \.name) { pokemon in
