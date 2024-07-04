@@ -54,6 +54,10 @@ class PokemonViewModel: ObservableObject {
             await MainActor.run { [weak self] in
                 self?.isLoading = false
                 if let pokemon = response.value {
+                    if let index = self?.cachedPokemons.firstIndex(of: pokemon) {
+                        self?.cachedPokemons.remove(at: index)
+                    }
+                    
                     self?.pokemons = [pokemon]
                     self?.cachedPokemons.insert(pokemon, at: 0)
                     self?.showNoResults = false
@@ -65,4 +69,3 @@ class PokemonViewModel: ObservableObject {
         }
     }
 }
-

@@ -7,12 +7,16 @@
 
 import Foundation
 
-struct Pokemon: Decodable, Identifiable {
+struct Pokemon: Identifiable, Decodable, Equatable {
     let id: Int
     let name: String
     let stats: [StatInfo]
     let sprites: Sprites
     let types: [TypeInfo]
+    
+    static func == (lhs: Pokemon, rhs: Pokemon) -> Bool {
+        return lhs.id == rhs.id
+    }
 }
 
 extension Pokemon {
