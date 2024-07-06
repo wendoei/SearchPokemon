@@ -8,12 +8,14 @@
 import SwiftUI
 
 struct PokemonImageCarouselView: View {
-    var imageUrls: [URL]
+    @State private var currentPage = 0
+    var imageDetails: [ImageDetail]
 
     var body: some View {
-        TabView {
-            ForEach(imageUrls, id: \.self) { imageUrl in
-                AsyncImage(url: imageUrl) { phase in
+        TabView(selection: $currentPage) {
+            ForEach(0..<imageDetails.count, id: \.self) { index in
+                let imageDetail = imageDetails[index]
+                AsyncImage(url: imageDetail.url) { phase in
                     switch phase {
                     case .empty:
                         ProgressView()
@@ -34,17 +36,23 @@ struct PokemonImageCarouselView: View {
                     width: Constants.Size.frame,
                     height: Constants.Size.frame
                 )
+                .tag(index)
+                .accessibilityLabel(imageDetail.description)
             }
         }
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
         .frame(height: Constants.Size.frame)
-        .padding()
         .background(
             Image(.pokemonBackground)
                 .resizable()
                 .aspectRatio(contentMode: .fill)
+                .accessibilityLabel(Constants.VoiceOver.backgroundImageLabel)
         )
         .clipped()
+        .onChange(of: currentPage) { _, newPage in
+            let description = imageDetails[newPage].description
+            UIAccessibility.post(notification: .announcement, argument: description)
+        }
     }
 }
 
@@ -56,6 +64,12 @@ extension PokemonImageCarouselView {
         
         enum Size {
             static let frame = CGFloat(300)
+        }
+        
+        enum VoiceOver {
+            static let backgroundImageLabel = """
+                A serene view of a lush green grassy hill leading down to a clear blue sea
+            """
         }
     }
 }

@@ -17,10 +17,12 @@ struct PokemonInfoView: View {
                     .font(.subheadline)
                     .fontWeight(.bold)
                     .foregroundColor(.secondary)
+                    .accessibilityLabel("Pokémon ID \(pokemon.id)")
                 
                 Text(pokemon.name.capitalized)
                     .font(.largeTitle)
                     .fontWeight(.bold)
+                    .accessibilityLabel("Pokémon name \(pokemon.name)")
             }
             
             Spacer()
@@ -28,6 +30,7 @@ struct PokemonInfoView: View {
             HStack {
                 ForEach(pokemon.types, id: \.type.name) { typeInfo in
                     TypeCapsuleView(typeName: typeInfo.type.name)
+                        .accessibilityLabel("Pokémon type \(typeInfo.type.name)")
                 }
             }
         }

@@ -30,9 +30,13 @@ struct SearchBarView: View {
                             isEditing = true
                         }
                     }
+                    .accessibilityHint(Constants.VoiceOver.searchTextFieldHint)
+
                 
                 if !searchText.isEmpty {
                     ClearButton(searchText: $searchText)
+                        .accessibilityLabel(Constants.VoiceOver.clearButtonLabel)
+                        .accessibilityHint(Constants.VoiceOver.clearButtonHint)
                 }
             }
             .padding(8)
@@ -54,6 +58,8 @@ struct SearchBarView: View {
                         .foregroundColor(cancelButtonColor)
                 }
                 .transition(.move(edge: .trailing))
+                .accessibilityLabel(Constants.VoiceOver.cancelButtonLabel)
+                .accessibilityHint(Constants.VoiceOver.cancelButtonHint)
             }
         }
     }
@@ -75,7 +81,7 @@ struct SearchBarView: View {
 extension SearchBarView {
     private enum Constants {
         static let cancelButtonTitle = "Cancel"
-        static let searchBarPlaceholder = "Search Pokémon"
+        static let searchBarPlaceholder = "type Pokémon name"
         
         enum Icons {
             static let search = "magnifyingglass"
@@ -85,6 +91,14 @@ extension SearchBarView {
             static let searchBarBackground = Color.gray.opacity(0.15)
             static let cancelButtonDefault = Color.blue
             static let cancelButtonHidden = Color.clear
+        }
+        
+        enum VoiceOver {
+            static let searchTextFieldHint = "Enter the name of the Pokémon you want to search for."
+            static let clearButtonLabel = "Clear button"
+            static let clearButtonHint = "Clears the search field"
+            static let cancelButtonLabel = "Cancel button"
+            static let cancelButtonHint = "Clears the search field and closes the keyboard"
         }
     }
 }

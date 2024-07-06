@@ -20,6 +20,8 @@ struct SearchableListView: View {
                 ZStack {
                     List(viewModel.pokemons, id: \.name) { pokemon in
                         PokemonRow(pokemon: pokemon)
+                            .accessibilityElement(children: .combine)
+                            .accessibilityHint("Taps to view more details about \(pokemon.name)")
                     }
                     .listRowSpacing(10)
                     
@@ -35,9 +37,10 @@ struct SearchableListView: View {
                     if viewModel.showNoResults {
                         Text(Constants.noResultFound)
                             .foregroundColor(.secondary)
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                             .background(Color(.systemBackground))
                             .edgesIgnoringSafeArea(.all)
+                            .multilineTextAlignment(.center)
                     }
                 }
             }
@@ -47,7 +50,7 @@ struct SearchableListView: View {
 
 extension SearchableListView {
     private enum Constants {
-        static let noResultFound = "No results found"
+        static let noResultFound = "No results found\nPlease try a different search term"
         static let searchBarPlaceholder = "Search Pokémon"
         
         enum Icons {

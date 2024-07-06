@@ -45,6 +45,8 @@ class PokemonViewModel: ObservableObject {
     
     func fetchPokemon(name: String) {
         isLoading = true
+        showNoResults = false
+        
         Task {
             let response = await AF.request(apiString + name).serializingDecodable(
                 Pokemon.self,
