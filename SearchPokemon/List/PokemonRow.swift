@@ -23,14 +23,17 @@ struct PokemonRow: View {
                         .font(.caption)
                         .fontWeight(.bold)
                         .opacity(0.4)
+                        .accessibilityLabel("Pokémon ID \(pokemon.id)")
                     
                     Text(pokemon.name.capitalized)
                         .font(.headline)
                         .fontWeight(.bold)
+                        .accessibilityLabel("Pokémon name \(pokemon.name)")
                     
                     HStack {
                         ForEach(pokemon.types, id: \.type.name) { typeInfo in
                             TypeCapsuleView(typeName: typeInfo.type.name)
+                                .accessibilityLabel("Pokémon type \(typeInfo.type.name)")
                         }
                     }
                 }
@@ -54,6 +57,8 @@ struct PokemonRow: View {
                     width: Constants.Size.imageFrame,
                     height: Constants.Size.imageFrame
                 )
+                .accessibilityElement()
+                .accessibilityLabel("Back view of \(pokemon.name)")
             }
         }
     }

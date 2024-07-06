@@ -13,11 +13,14 @@ struct PokemonDetailView: View {
     var body: some View {
         ScrollView {
             VStack {
-                PokemonImageCarouselView(imageUrls: pokemon.sprites.all)
+                PokemonImageCarouselView(imageDetails: pokemon.sprites.all)
+                    .accessibilityElement(children: .contain)
+                    .accessibilityLabel("Carousel of \(pokemon.name)'s images")
                 
                 PokemonInfoView(pokemon: pokemon)
                     .padding(.horizontal)
                     .padding(.top, 16)
+                    .accessibilityElement(children: .combine)
                 
                 Divider()
                     .padding(.horizontal)
@@ -26,6 +29,7 @@ struct PokemonDetailView: View {
                     Text(Constants.baseStatsTitle)
                         .font(.headline)
                         .padding(.vertical, 5)
+                        .accessibilityLabel("Base Stats for \(pokemon.name)")
                     PokemonStatView(pokemon: pokemon)
                 }
                 .padding(.horizontal)

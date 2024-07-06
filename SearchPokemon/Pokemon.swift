@@ -49,18 +49,19 @@ extension Pokemon {
         let backShiny: URL?
         let backShinyFemale: URL?
         
-        var all: [URL] {
+        var all: [ImageDetail] {
             [
-                frontDefault,
-                backDefault,
-                frontFemale,
-                backFemale,
-                frontShiny,
-                backShiny,
-                frontShinyFemale,
-                backShinyFemale
-            ]
-            .compactMap { $0 }
+                ("Front view of the Pokémon", frontDefault),
+                ("Back view of the Pokémon", backDefault),
+                ("Front view of the Pokémon", frontFemale),
+                ("Back view of the Pokémon", backFemale),
+                ("Front view of the Pokémon's shiny variant", frontShiny),
+                ("Back view of the Pokémon's shiny variant", backShiny),
+                ("Front view of the Pokémon's shiny varian", frontShinyFemale),
+                ("Back view of the Pokémon's shiny variant", backShinyFemale)
+            ].compactMap { description, url in
+                url.map { ImageDetail(url: $0, description: description) }
+            }
         }
     }
 }

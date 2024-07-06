@@ -20,6 +20,7 @@ struct AnimatingProgressView: View {
             ProgressView(value: progress, total: total)
                 .scaleEffect(x: 1, y: 4, anchor: .center)
                 .progressViewStyle(LinearProgressViewStyle(tint: color))
+                .accessibilityHidden(true)
             
             Text("\(Int(progress))")
                 .font(.caption)
