@@ -30,7 +30,7 @@ struct PokemonDetailView: View {
                         .font(.headline)
                         .padding(.vertical, 5)
                         .accessibilityLabel("Base Stats for \(pokemon.name)")
-                    PokemonStatView(pokemon: pokemon)
+                    PokemonStatView(sortedStats: pokemon.stats.sorted())
                 }
                 .padding(.horizontal)
             }

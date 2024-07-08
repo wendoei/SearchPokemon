@@ -8,22 +8,31 @@
 import SwiftUI
 
 struct PokemonStatView: View {
-    var pokemon: Pokemon
+    @Environment(\.dynamicTypeSize)
+    private var dynamicTypeSize: DynamicTypeSize
     
+    var dynamicLayout: AnyLayout {
+        dynamicTypeSize.isAccessibilitySize ?
+        AnyLayout(VStackLayout(alignment: .leading)) : AnyLayout(HStackLayout())
+    }
+    
+    var sortedStats: [Pokemon.StatInfo]
+    
+    @State private var maxStatLabelWidth: CGFloat = 0
     @State private var progress: Double = 0
     
     private var maxStatValue: Double {
-        let maxValue = pokemon.stats.map { Double($0.baseStat) }.max() ?? 100
+        let maxValue = sortedStats.map { Double($0.baseStat) }.max() ?? 100
         return maxValue * 4 / 3
     }
 
     var body: some View {
         VStack {
-            ForEach(pokemon.stats.sorted(), id: \.stat.name) { statInfo in
-                HStack {
+            ForEach(self.sortedStats, id: \.stat.name) { statInfo in
+                dynamicLayout {
                     Text(statInfo.stat.name.capitalized)
                         .font(.subheadline)
-                        .frame(width: 120, alignment: .leading)
+                        .frame(width: maxStatLabelWidth, alignment: .leading)
                         
                     Spacer()
 
@@ -37,6 +46,12 @@ struct PokemonStatView: View {
                 .accessibilityElement(children: .combine)
             }
         }
+        .onAppear {
+            self.maxStatLabelWidth = calculateStatLabelWidth(for: self.sortedStats.last)
+        }
+        .onChange(of: dynamicTypeSize) {
+            self.maxStatLabelWidth = calculateStatLabelWidth(for: self.sortedStats.last)
+        }
     }
     
     func progressBarColor(forStat statName: String) -> Color {
@@ -49,5 +64,12 @@ struct PokemonStatView: View {
         case "speed": return .purple
         default: return .gray
         }
+    }
+    
+    func calculateStatLabelWidth(for statInfo: Pokemon.StatInfo?) -> CGFloat {
+        guard let statInfo else { return .zero }
+        // TODO: not using UIFont
+        let font = UIFont.preferredFont(forTextStyle: .subheadline)
+        return statInfo.stat.name.capitalized.width(usingFont: font)
     }
 }

@@ -8,6 +8,14 @@
 import SwiftUI
 
 struct PokemonRow: View {
+    @Environment(\.dynamicTypeSize)
+    private var dynamicTypeSize: DynamicTypeSize
+    
+    var dynamicLayout: AnyLayout {
+        dynamicTypeSize.isAccessibilitySize ?
+        AnyLayout(VStackLayout(alignment: .leading)) : AnyLayout(HStackLayout())
+    }
+    
     var pokemon: Pokemon
     
     var body: some View {
@@ -30,7 +38,7 @@ struct PokemonRow: View {
                         .fontWeight(.bold)
                         .accessibilityLabel("Pokémon name \(pokemon.name)")
                     
-                    HStack {
+                    dynamicLayout {
                         ForEach(pokemon.types, id: \.type.name) { typeInfo in
                             TypeCapsuleView(typeName: typeInfo.type.name)
                                 .accessibilityLabel("Pokémon type \(typeInfo.type.name)")
